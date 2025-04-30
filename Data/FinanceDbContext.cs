@@ -1,4 +1,5 @@
-﻿using FinanceLibrary.Models;
+﻿using FinanceLibrary.Enum;
+using FinanceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,28 @@ namespace FinanceLibrary.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Database=FinanceDB;Username=postgres;Password=1234");
+        }
+
+        // Метод для получения категорий пользователя
+        public IQueryable<Category> GetUserCategories(int userId, TransactionType? type = null)
+        {
+            var query = Categories.Where(c => c.UserId == userId);
+
+            if (type != null)
+                query = query.Where(c => c.Type == type);
+
+            return query;
+        }
+
+        // Асинхронная версия
+        public async Task<List<Category>> GetUserCategoriesAsync(int userId, TransactionType? type = null)
+        {
+            var query = Categories.Where(c => c.UserId == userId);
+
+            if (type != null)
+                query = query.Where(c => c.Type == type);
+
+            return await query.ToListAsync();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
