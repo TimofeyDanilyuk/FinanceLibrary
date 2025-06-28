@@ -18,7 +18,7 @@ namespace FinanceLibrary.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=FinanceDB;Username=postgres;Password=1234");
+            
         }
 
         // Метод для получения категорий пользователя
